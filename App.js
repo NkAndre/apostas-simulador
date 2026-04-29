@@ -1,30 +1,29 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ImageBackground, StyleSheet, Text, View,Pressable, TouchableOpacity, Alert, Image } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, Pressable, Image } from 'react-native';
 import { girar, getAlerta } from "./src/logic/game";
 
-// 1. Mapeamento das imagens (Ajuste os nomes dos arquivos conforme sua pasta assets)
 const IMAGENS_SLOT = {
-  'cherry': require('./assets/chuteira.png'),
-  'seven': require('./assets/taça.png'),
-  'diamond': require('./assets/icon.png'),
-  'lemon': require('./assets/trionda.png'),
-  'bell': require('./assets/apito.png'),
-  'star': require('./assets/camisa.png'),
+  'chuteira': require('./assets/chuteira.png'),
+  'taca': require('./assets/taça.png'),
+  'canario': require('./assets/canario.png'),
+  'trionda': require('./assets/trionda.png'),
+  'apito': require('./assets/apito.png'),
+  'camisa': require('./assets/camisa.png'),
 };
 
 export default function App() {
   const [saldo, setSaldo] = useState(100);
   const [resultadoTexto, setResultadoTexto] = useState("Boa sorte!");
+  const [mensagemAlerta, setMensagemAlerta] = useState("");
   const [rodando, setRodando] = useState(false);
 
-  // Usamos as chaves do objeto IMAGENS_SLOT em vez de emojis
   const simbolos = Object.keys(IMAGENS_SLOT);
 
   const [grade, setGrade] = useState([
-    ["cherry", "seven", "diamond"],
-    ["lemon", "bell", "star"],
-    ["cherry", "diamond", "seven"]
+    ["chuteira", "taca", "canario"],
+    ["trionda", "apito", "camisa"],
+    ["chuteira", "canario", "taca"]
   ]);
 
   const gerarFileiraAleatoria = () => [
@@ -38,6 +37,7 @@ export default function App() {
 
     setRodando(true);
     setResultadoTexto("Girando...");
+    setMensagemAlerta("");
 
     let intervalo = setInterval(() => {
       setGrade([
@@ -49,6 +49,7 @@ export default function App() {
 
     setTimeout(() => {
       clearInterval(intervalo);
+
       const resultado = girar();
 
       setSaldo(resultado.saldo);
@@ -56,22 +57,27 @@ export default function App() {
 
       if (resultado.resultado === "ganhou") {
         setResultadoTexto("VOCÊ GANHOU! 🎉");
+
+        const iconeVitoria = "taca";
         setGrade([
           gerarFileiraAleatoria(),
-          ["diamond", "diamond", "diamond"],
+          [iconeVitoria, iconeVitoria, iconeVitoria],
           gerarFileiraAleatoria()
         ]);
       } else {
         setResultadoTexto("Tente novamente! ❌");
+
         setGrade([
           gerarFileiraAleatoria(),
-          [simbolos[0], simbolos[1], simbolos[2]], // Exemplo de perda
+          ["chuteira", "apito", "camisa"],
           gerarFileiraAleatoria()
         ]);
       }
 
-      const alerta = getAlerta();
-      if (alerta) Alert.alert("Aviso importante", alerta);
+      const alerta = getAlerta(resultado.resultado === "ganhou");
+      if (alerta) {
+        setMensagemAlerta(alerta);
+      }
     }, 1500);
   };
 
@@ -90,6 +96,10 @@ export default function App() {
         <View style={styles.statusPanel}>
           <Text style={styles.saldoText}>Saldo: R$ {saldo}</Text>
           <Text style={styles.feedbackText}>{resultadoTexto}</Text>
+
+          {mensagemAlerta !== "" && (
+            <Text style={styles.alertaText}>{mensagemAlerta}</Text>
+          )}
         </View>
 
         <View style={styles.slotContainer}>
@@ -97,7 +107,6 @@ export default function App() {
             <View key={i} style={styles.reelsContainer}>
               {fileira.map((nomeImagem, j) => (
                 <View key={j} style={[styles.reel, rodando && styles.reelSpinning]}>
-                  {/* 2. Substituindo o Text pela Image */}
                   <Image
                     source={IMAGENS_SLOT[nomeImagem]}
                     style={styles.slotImage}
@@ -113,7 +122,9 @@ export default function App() {
           onPress={lidarComGiro}
           disabled={rodando}
         >
-          <Text style={styles.buttonText}>{rodando ? "SORTEANDO..." : "GIRE"}</Text>
+          <Text style={styles.buttonText}>
+            {rodando ? "GIRANDO..." : "GIRE"}
+          </Text>
         </Pressable>
 
       </ImageBackground>
@@ -147,7 +158,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignItems: 'center',
     width: '85%',
-    borderWidth: 1,
+    borderWidth: 5,
     borderColor: '#FFD700'
   },
   saldoText: {
@@ -189,22 +200,22 @@ const styles = StyleSheet.create({
   },
   // 3. Novo estilo para a imagem do slot
   logoImage: {
-    width: 275,
-    height: 275,
+    width: 285,
+    height: 285,
   },
   slotImage: {
-    width: 60,
-    height: 60,
+    width: 70,
+    height: 70,
     resizeMode: 'contain',
   },
   button: {
     marginTop: 30,
-    backgroundColor: '#FF0000',
+    backgroundColor: '#00ca33ff',
     paddingVertical: 15,
     paddingHorizontal: 50,
     borderRadius: 50,
-    borderWidth: 3,
-    borderColor: '#fff'
+    borderWidth: 5,
+    borderColor: '#ffffffff'
   },
 
   buttonDisabled: {
