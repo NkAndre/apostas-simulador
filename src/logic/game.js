@@ -44,24 +44,15 @@ function girar() {
   return resultado;
 }
 
- // msg de concientização 
-function getAlerta(ganhouAgora) {
-
-  if(ganhouAgora){
-    return null;
-  }
-
-  // se o jogador insistiu (5+ vezes) e já esta no prejuízo
-  if (jogadas >= 5 && saldo < 100) {
+function getAlerta() {
+  if (jogadas >= 3 && saldo < 100) {
     return "Você está perdendo dinheiro. Esses jogos são feitos pra te prender.";
   }
 
-  // se o jogador chegou a 10 jogadas, envia um alerta sobre o padrão de perda
-  if (jogadas >= 10) {
+  if (jogadas >= 6) {
     return "Percebeu o padrão? Quanto mais joga, mais perde.";
   }
 
-  // se nao houver alertas retorna nada 
   return null;
 }
 
