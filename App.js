@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 3,
   },
+
   reel: {
     width: 75,
     height: 75,
