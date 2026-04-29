@@ -1,22 +1,32 @@
-import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { ImageBackground, StyleSheet, Text, View,Pressable, TouchableOpacity, Alert, Image } from 'react-native';
+import React, { useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  TouchableOpacity,
+  Alert,
+  Image,
+} from "react-native";
 import { girar, getAlerta } from "./src/logic/game";
 
 // 1. Mapeamento das imagens (Ajuste os nomes dos arquivos conforme sua pasta assets)
 const IMAGENS_SLOT = {
-  'cherry': require('./assets/chuteira.png'),
-  'seven': require('./assets/taça.png'),
-  'diamond': require('./assets/icon.png'),
-  'lemon': require('./assets/trionda.png'),
-  'bell': require('./assets/apito.png'),
-  'star': require('./assets/camisa.png'),
+  cherry: require("./assets/chuteira.png"),
+  seven: require("./assets/taça.png"),
+  diamond: require("./assets/icon.png"),
+  lemon: require("./assets/trionda.png"),
+  bell: require("./assets/apito.png"),
+  star: require("./assets/camisa.png"),
 };
 
 export default function App() {
   const [saldo, setSaldo] = useState(100);
   const [resultadoTexto, setResultadoTexto] = useState("Boa sorte!");
   const [rodando, setRodando] = useState(false);
+  const [mensagemAlerta, setMensagemAlerta] = useState("");
 
   // Usamos as chaves do objeto IMAGENS_SLOT em vez de emojis
   const simbolos = Object.keys(IMAGENS_SLOT);
@@ -24,13 +34,13 @@ export default function App() {
   const [grade, setGrade] = useState([
     ["cherry", "seven", "diamond"],
     ["lemon", "bell", "star"],
-    ["cherry", "diamond", "seven"]
+    ["cherry", "diamond", "seven"],
   ]);
 
   const gerarFileiraAleatoria = () => [
     simbolos[Math.floor(Math.random() * simbolos.length)],
     simbolos[Math.floor(Math.random() * simbolos.length)],
-    simbolos[Math.floor(Math.random() * simbolos.length)]
+    simbolos[Math.floor(Math.random() * simbolos.length)],
   ];
 
   const lidarComGiro = () => {
@@ -43,7 +53,7 @@ export default function App() {
       setGrade([
         gerarFileiraAleatoria(),
         gerarFileiraAleatoria(),
-        gerarFileiraAleatoria()
+        gerarFileiraAleatoria(),
       ]);
     }, 100);
 
@@ -59,44 +69,51 @@ export default function App() {
         setGrade([
           gerarFileiraAleatoria(),
           ["diamond", "diamond", "diamond"],
-          gerarFileiraAleatoria()
+          gerarFileiraAleatoria(),
         ]);
       } else {
         setResultadoTexto("Tente novamente! ❌");
         setGrade([
           gerarFileiraAleatoria(),
           [simbolos[0], simbolos[1], simbolos[2]], // Exemplo de perda
-          gerarFileiraAleatoria()
+          gerarFileiraAleatoria(),
         ]);
       }
 
-      const alerta = getAlerta();
-      if (alerta) Alert.alert("Aviso importante", alerta);
+     const alerta = getAlerta();
+      if (alerta) {
+        setMensagemAlerta(alerta);
+      } else {
+        setMensagemAlerta("");
+      }
     }, 1500);
   };
 
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('./assets/background1.png')}
+        source={require("./assets/background1.png")}
         resizeMode="cover"
         style={styles.background}
       >
-        <Image
-          source={require('./assets/logo.png')}
-          style={styles.logoImage}
-        />
+        <Image source={require("./assets/logo.png")} style={styles.logoImage} />
 
         <View style={styles.statusPanel}>
           <Text style={styles.saldoText}>Saldo: R$ {saldo}</Text>
           <Text style={styles.feedbackText}>{resultadoTexto}</Text>
+          {mensagemAlerta !== "" && (
+            <Text style={styles.alertaText}>{mensagemAlerta}</Text>
+          )}
         </View>
 
         <View style={styles.slotContainer}>
           {grade.map((fileira, i) => (
             <View key={i} style={styles.reelsContainer}>
               {fileira.map((nomeImagem, j) => (
-                <View key={j} style={[styles.reel, rodando && styles.reelSpinning]}>
+                <View
+                  key={j}
+                  style={[styles.reel, rodando && styles.reelSpinning]}
+                >
                   {/* 2. Substituindo o Text pela Image */}
                   <Image
                     source={IMAGENS_SLOT[nomeImagem]}
@@ -113,9 +130,10 @@ export default function App() {
           onPress={lidarComGiro}
           disabled={rodando}
         >
-          <Text style={styles.buttonText}>{rodando ? "SORTEANDO..." : "GIRE"}</Text>
+          <Text style={styles.buttonText}>
+            {rodando ? "SORTEANDO..." : "GIRE"}
+          </Text>
         </Pressable>
-
       </ImageBackground>
       <StatusBar style="light" />
     </View>
@@ -125,67 +143,66 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000'
+    backgroundColor: "#000",
   },
   background: {
-    flex: 1, alignItems: 'center',
-    justifyContent:
-      'center',
-    width: '100%',
-    height: '100%'
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
   },
   title: {
     fontSize: 42,
-    fontWeight: 'bold',
-    color: '#FFD700',
-    marginBottom: 20
+    fontWeight: "bold",
+    color: "#FFD700",
+    marginBottom: 20,
   },
   statusPanel: {
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: "rgba(0,0,0,0.7)",
     padding: 15,
     borderRadius: 12,
     marginBottom: 20,
-    alignItems: 'center',
-    width: '85%',
+    alignItems: "center",
+    width: "85%",
     borderWidth: 1,
-    borderColor: '#FFD700'
+    borderColor: "#FFD700",
   },
   saldoText: {
-    color: '#00FF00',
+    color: "#00FF00",
     fontSize: 28,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   feedbackText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    marginTop: 5
+    marginTop: 5,
   },
   slotContainer: {
-    backgroundColor: '#333',
+    backgroundColor: "#333",
     padding: 10,
     borderRadius: 15,
     borderWidth: 5,
-    borderColor: '#FFD700'
+    borderColor: "#FFD700",
   },
   reelsContainer: {
-    flexDirection:
-      'row',
-    marginVertical: 3
+    flexDirection: "row",
+    marginVertical: 3,
   },
   reel: {
     width: 75,
     height: 75,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     marginHorizontal: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 8,
     borderWidth: 2,
-    borderColor: '#bbb'
+    borderColor: "#bbb",
   },
   reelSpinning: {
     opacity: 0.7,
-    borderColor: '#FFD700'
+    borderColor: "#FFD700",
   },
   // 3. Novo estilo para a imagem do slot
   logoImage: {
@@ -195,25 +212,25 @@ const styles = StyleSheet.create({
   slotImage: {
     width: 60,
     height: 60,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   button: {
     marginTop: 30,
-    backgroundColor: '#FF0000',
+    backgroundColor: "#FF0000",
     paddingVertical: 15,
     paddingHorizontal: 50,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: '#fff'
+    borderColor: "#fff",
   },
 
   buttonDisabled: {
-    backgroundColor: '#444',
-    borderColor: '#888'
+    backgroundColor: "#444",
+    borderColor: "#888",
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 22,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
 });
