@@ -18,6 +18,7 @@ export default function App() {
   const [mensagemAlerta, setMensagemAlerta] = useState("");
   const [rodando, setRodando] = useState(false);
 
+
   const simbolos = Object.keys(IMAGENS_SLOT);
 
   const [grade, setGrade] = useState([
@@ -29,7 +30,7 @@ export default function App() {
   const gerarFileiraAleatoria = () => [
     simbolos[Math.floor(Math.random() * simbolos.length)],
     simbolos[Math.floor(Math.random() * simbolos.length)],
-    simbolos[Math.floor(Math.random() * simbolos.length)]
+    simbolos[Math.floor(Math.random() * simbolos.length)],
   ];
 
   const lidarComGiro = () => {
@@ -43,7 +44,7 @@ export default function App() {
       setGrade([
         gerarFileiraAleatoria(),
         gerarFileiraAleatoria(),
-        gerarFileiraAleatoria()
+        gerarFileiraAleatoria(),
       ]);
     }, 100);
 
@@ -84,19 +85,15 @@ export default function App() {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('./assets/background1.png')}
+        source={require("./assets/background1.png")}
         resizeMode="cover"
         style={styles.background}
       >
-        <Image
-          source={require('./assets/logo.png')}
-          style={styles.logoImage}
-        />
+        <Image source={require("./assets/logo.png")} style={styles.logoImage} />
 
         <View style={styles.statusPanel}>
           <Text style={styles.saldoText}>Saldo: R$ {saldo}</Text>
           <Text style={styles.feedbackText}>{resultadoTexto}</Text>
-
           {mensagemAlerta !== "" && (
             <Text style={styles.alertaText}>{mensagemAlerta}</Text>
           )}
@@ -126,7 +123,6 @@ export default function App() {
             {rodando ? "GIRANDO..." : "GIRE"}
           </Text>
         </Pressable>
-
       </ImageBackground>
       <StatusBar style="light" />
     </View>
@@ -160,11 +156,13 @@ const styles = StyleSheet.create({
   },
 
   slotContainer: {
+
     backgroundColor: 'rgba(51, 51, 51, 0.9)',
+
     padding: 10,
     borderRadius: 15,
     borderWidth: 5,
-    borderColor: '#FFD700'
+    borderColor: "#FFD700",
   },
 
   reelsContainer: { flexDirection: 'row', marginVertical: 3 },
