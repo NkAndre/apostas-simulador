@@ -56,6 +56,7 @@ Mensagens exibidas:
 
 ## 🛠️ Como rodar
 
-```bash
+```terminal
+git clone https://github.com/NkAndre/apostas-simulador.git
 npm install
 npx expo start
