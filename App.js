@@ -279,9 +279,9 @@ const IMAGENS_SLOT = {
   'trionda': require('./assets/trionda.png'),
   'apito': require('./assets/apito.png'),
   'camisa': require('./assets/camisa.png'),
-  '1': require('./assets/icon.png'),
-  '2': require('./assets/splash-icon.png'),
-  '3': require('./assets/adaptive-icon.png'),
+  'vuvuzela': require('./assets/vuvuzela.png'),
+  'luva': require('./assets/luva.png'),
+  'cartao': require('./assets/cartao.png'),
 };
 
 export default function App() {
@@ -298,7 +298,7 @@ export default function App() {
   const [grade, setGrade] = useState([
     ["chuteira", "taca", "canario"],
     ["trionda", "apito", "camisa"],
-    ["1", "2", "3"]
+    ["vuvuzela", "luva", "cartao"]
   ]);
 
   const gerarFileiraAleatoria = () => [
@@ -311,7 +311,7 @@ export default function App() {
     if (rodando || saldo <= 0) return;
 
     setRodando(true);
-    setMensagemAlerta("");
+   
 
     let intervalo = setInterval(() => {
       setGrade([
@@ -511,7 +511,11 @@ const styles = StyleSheet.create({
 
   reelSpinning: { opacity: 0.6 },
 
-  slotImage: { width: 75, height: 75 },
+  slotImage: {
+    width: '95%',
+    height: '95%',
+    resizeMode: 'contain'
+  },
 
   depositContainer: {
     flexDirection: "row",

@@ -33,7 +33,7 @@ function girar() {
     ganhou = false;
   }
 
-  let valor = ganhou ? 20 : -10;
+  let valor = ganhou ? 20 : -20;
   saldo += valor;
 
   const resultado = {
