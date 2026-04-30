@@ -4,7 +4,7 @@ let historico = [];
 
 function girar() {
 
-  // 🚫 trava quando saldo acaba
+  //  trava quando saldo acaba
   if (saldo <= 0) {
     return {
       jogada: jogadas,
@@ -18,7 +18,7 @@ function girar() {
 
   let ganhou;
 
-  // 🎯 ganha só nas 3 primeiras
+  //  ganha só nas 3 primeiras
   if (jogadas <= 3) {
     ganhou = true;
   } else {
@@ -43,12 +43,26 @@ function girar() {
 function getAlerta() {
 
   if (saldo <= 0) {
-    return "Seu saldo acabou. O jogo foi encerrado.";
+    return "Seu saldo acabou. Esse é o destino final em todos jogos de aposta.";
   }
 
-  if (jogadas >= 4 && saldo < 100) {
-    return "Agora você só perde. Percebeu o padrão?";
+  if (jogadas === 4) {
+    return "Percebeu que você começou ganhando? Isso não é sorte, é estratégia.";
   }
+
+    if (saldo < 100 && jogadas >= 4) {
+    return "Você já está no prejuízo, mas a tendência é continuar jogando.";
+  }
+
+    if (jogadas >= 6 && saldo > 0) {
+    return "Mesmo perdendo, você continua. É assim que esses jogos te prendem.";
+  }
+
+  //  padrão revelado
+  if (jogadas >= 8) {
+    return "Quanto mais você joga, mais perde. Isso não é coincidência.";
+  }
+
 
   return null;
 }
