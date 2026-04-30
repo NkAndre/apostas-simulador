@@ -1,47 +1,63 @@
-## 🎰 Simulador de Apostas - React Native
+# 🎰 Simulador de Apostas
 
-Aplicativo mobile que simula um sistema de apostas estilo caça-níquel, com foco educativo para demonstrar como esses jogos funcionam e como podem induzir o usuário a continuar jogando.
+Aplicativo mobile que simula um sistema de apostas estilo caça-níquel, com foco educativo.
+
+Mostra na prática como jogos de aposta utilizam estratégias psicológicas para manter o usuário jogando.
+
 ---
-## 🚀 Tecnologias utilizadas
-![React Native](https://reactnative.dev/img/header_logo.svg)
+
+## 🚀 Tecnologias
+
+<img src="https://reactnative.dev/img/header_logo.svg" width="40"/> React Native  
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="40"/> JavaScript  
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="40"/> Git  
+
 ---
 
 ## 🎯 Objetivo
 
-Demonstrar, de forma prática, como jogos de aposta funcionam por trás:
+Demonstrar como funcionam os bastidores de jogos de aposta:
 
-Probabilidades manipuladas
-Sensação de vitória inicial (efeito psicológico)
-Tendência de perda a longo prazo
-Alertas de conscientização
+- 🎯 Probabilidades manipuladas  
+- 🧠 Sensação de vitória inicial (efeito psicológico)  
+- 📉 Tendência de perda a longo prazo  
+- ⚠️ Alertas de conscientização  
 
 ---
 
 ## 📸 Preview
-<img src="https://reactnative.dev/img/header_logo.svg" width="40"/>
 
+<img width="379" height="810" src="https://github.com/user-attachments/assets/ef4050ce-5085-4458-bac7-7521cf8543da" />
 
 ---
 
 ## 🧠 Lógica do jogo
 
-Primeiras jogadas: vitória garantida (efeito "isca")
-Após isso: apenas 30% de chance de ganhar
-Ganho: +20
-Perda: -10
+- Primeiras jogadas: vitória garantida (efeito "isca")  
+- Depois: apenas **30% de chance de ganhar**  
+- Ganho: **+20**  
+- Perda: **-10**
 
-O sistema também exibe mensagens como:
+Mensagens exibidas:
 
-"Você está perdendo dinheiro..."
-"Percebeu o padrão?"
+- "Você está perdendo dinheiro..."  
+- "Percebeu o padrão?"  
 
 ---
 
 ## 📱 Funcionalidades
 
-Sistema de saldo
-Slot machine com imagens
-Animação de giro
-Feedback de vitória/derrota
-Alertas de conscientização
-Histórico interno de jogadas
+- 💰 Sistema de saldo  
+- 🎰 Slot machine com imagens  
+- 🔄 Animação de giro  
+- ✅ Feedback de vitória/derrota  
+- ⚠️ Alertas de conscientização  
+-
+
+---
+
+## 🛠️ Como rodar
+
+```bash
+npm install
+npx expo start
