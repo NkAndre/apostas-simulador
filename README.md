@@ -8,7 +8,7 @@ Mostra na prática como jogos de aposta utilizam estratégias psicológicas para
 
 ## 🚀 Tecnologias
 
-<img src="https://reactnative.dev/img/header_logo.svg" width="40"/> React Native  
+<img src="https://reactnative.dev/img/header_logo.svg" width="40"/>  
 
 ---
 
