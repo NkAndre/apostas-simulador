@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ImageBackground, StyleSheet, Text, View, Pressable, Image } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { girar, getAlerta, adicionarDeposito } from "./src/logic/game";
 
 const IMAGENS_SLOT = {
@@ -88,7 +89,7 @@ export default function App() {
     }, 1500);
   };
 
-  // 🔥 depósito dinâmico
+  //depósito dinâmico
   const fazerDeposito = (valor) => {
     const res = adicionarDeposito(valor);
     setDeposito(res.deposito);
@@ -97,13 +98,14 @@ export default function App() {
   };
 
   return (
+   
     <View style={styles.container}>
       <ImageBackground
         source={require("./assets/background1.png")}
         resizeMode="cover"
         style={styles.background}
       >
-
+ 
         {/* TOPO */}
         <View style={styles.viewDados}>
           <Text style={styles.text}>Olá, {nomeUsuario}</Text>
@@ -165,7 +167,9 @@ export default function App() {
 
       </ImageBackground>
       <StatusBar style="light" />
+        
     </View>
+    
   );
 }
 
@@ -184,7 +188,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "90%",
-   
+   marginTop:40,
   },
 
   text: {
@@ -265,6 +269,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
+    marginBottom: 30,
     marginTop: 20,
     backgroundColor: '#01d135',
     paddingVertical: 15,
