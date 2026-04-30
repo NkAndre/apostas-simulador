@@ -17,6 +17,7 @@ const IMAGENS_SLOT = {
 
 export default function App() {
   const [saldo, setSaldo] = useState(0);
+  const [deposito, set] = useState(0);
   const [resultadoTexto, setResultadoTexto] = useState("Boa sorte!");
   const [mensagemAlerta, setMensagemAlerta] = useState("");
   const [rodando, setRodando] = useState(false);
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
   text: {
      color: '#fff',
      fontSize: 20,
-     marginHorizontal: 50,
+     marginHorizontal: 40,
      fontWeight: '700'
   },
 
