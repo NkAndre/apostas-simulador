@@ -10,10 +10,14 @@ const IMAGENS_SLOT = {
   'trionda': require('./assets/trionda.png'),
   'apito': require('./assets/apito.png'),
   'camisa': require('./assets/camisa.png'),
+  '1': require('./assets/icon.png'),
+  '2': require('./assets/splash-icon.png'),
+  '3': require('./assets/adaptive-icon.png'),
 };
 
 export default function App() {
-  const [saldo, setSaldo] = useState(100);
+  const [saldo, setSaldo] = useState(0);
+  const [deposito, set] = useState(0);
   const [resultadoTexto, setResultadoTexto] = useState("Boa sorte!");
   const [mensagemAlerta, setMensagemAlerta] = useState("");
   const [rodando, setRodando] = useState(false);
@@ -24,7 +28,7 @@ export default function App() {
   const [grade, setGrade] = useState([
     ["chuteira", "taca", "canario"],
     ["trionda", "apito", "camisa"],
-    ["chuteira", "canario", "taca"]
+    ["1", "2", "3"]
   ]);
 
   const gerarFileiraAleatoria = () => [
@@ -37,7 +41,6 @@ export default function App() {
     if (rodando) return;
 
     setRodando(true);
-    setResultadoTexto("Girando...");
     setMensagemAlerta("");
 
     let intervalo = setInterval(() => {
@@ -57,7 +60,7 @@ export default function App() {
       setRodando(false);
 
       if (resultado.resultado === "ganhou") {
-        setResultadoTexto("VOCÊ GANHOU! 🎉");
+        setResultadoTexto("VOCÊ GANHOU!");
 
         const iconeVitoria = "taca";
         setGrade([
@@ -66,7 +69,7 @@ export default function App() {
           gerarFileiraAleatoria()
         ]);
       } else {
-        setResultadoTexto("Tente novamente! ❌");
+        setResultadoTexto("Tente novamente!");
 
         setGrade([
           gerarFileiraAleatoria(),
@@ -89,10 +92,14 @@ export default function App() {
         resizeMode="cover"
         style={styles.background}
       >
+        <View style={styles.viewDados}>
+          <Text style={styles.text}>Olá André!</Text>
+          <Text style={styles.text}>Saldo: R$ {saldo}</Text>
+        </View>
         <Image source={require("./assets/logo.png")} style={styles.logoImage} />
 
         <View style={styles.statusPanel}>
-          <Text style={styles.saldoText}>Saldo: R$ {saldo}</Text>
+          <Text style={styles.saldoText}>R$ {saldo}</Text>
           <Text style={styles.feedbackText}>{resultadoTexto}</Text>
           {mensagemAlerta !== "" && (
             <Text style={styles.alertaText}>{mensagemAlerta}</Text>
@@ -120,7 +127,7 @@ export default function App() {
           disabled={rodando}
         >
           <Text style={styles.buttonText}>
-            {rodando ? "GIRANDO..." : "GIRE"}
+            {rodando ? "GIRANDO..." : "GIRAR"}
           </Text>
         </Pressable>
       </ImageBackground>
@@ -132,7 +139,19 @@ export default function App() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
   background: { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' },
-  logoImage: { width: 250, height: 150, resizeMode: 'contain', marginBottom: 10 },
+
+  viewDados: {
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  text: {
+     color: '#fff',
+     fontSize: 20,
+     marginHorizontal: 40,
+     fontWeight: '700'
+  },
+
+  logoImage: { width: 250, height: 250, resizeMode: 'contain', marginBottom: 10 },
 
   statusPanel: {
     backgroundColor: 'rgba(0,0,0,0.8)',
@@ -140,8 +159,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 20,
     alignItems: 'center',
-    width: '85%',
-    borderWidth: 2,
+    width: '72%',
+    borderWidth: 5,
     borderColor: '#FFD700'
   },
 
