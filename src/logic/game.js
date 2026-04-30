@@ -1,16 +1,24 @@
-let saldo = 100;
+let deposito = 0;
+let saldo = 0;
 let jogadas = 0;
 let historico = [];
 
+function adicionarDeposito(valor) {
+  deposito += valor;
+  saldo += valor;
+
+  return { deposito, saldo };
+}
+
 function girar() {
 
-  //  trava quando saldo acaba
   if (saldo <= 0) {
     return {
       jogada: jogadas,
       resultado: "sem_saldo",
       valor: 0,
-      saldo
+      saldo,
+      deposito
     };
   }
 
@@ -18,11 +26,11 @@ function girar() {
 
   let ganhou;
 
-  //  ganha só nas 3 primeiras
+  // ganha só nas 3 primeiras
   if (jogadas <= 3) {
     ganhou = true;
   } else {
-    ganhou = false; // depois só perde
+    ganhou = false;
   }
 
   let valor = ganhou ? 20 : -10;
@@ -32,7 +40,8 @@ function girar() {
     jogada: jogadas,
     resultado: ganhou ? "ganhou" : "perdeu",
     valor,
-    saldo
+    saldo,
+    deposito
   };
 
   historico.push(resultado);
@@ -43,34 +52,33 @@ function girar() {
 function getAlerta() {
 
   if (saldo <= 0) {
-    return "Seu saldo acabou. Esse é o destino final em todos jogos de aposta.";
+    return "Seu saldo acabou. Você perdeu tudo que depositou.";
   }
 
   if (jogadas === 4) {
-    return "Percebeu que você começou ganhando? Isso não é sorte, é estratégia.";
+    return "Você começou ganhando, mas agora só perde.";
   }
 
-    if (saldo < 100 && jogadas >= 4) {
-    return "Você já está no prejuízo, mas a tendência é continuar jogando.";
+  if (saldo < deposito) {
+    return "Você já está no prejuízo.";
   }
 
-    if (jogadas >= 6 && saldo > 0) {
-    return "Mesmo perdendo, você continua. É assim que esses jogos te prendem.";
+  if (jogadas >= 6) {
+    return "Mesmo perdendo, você continua jogando.";
   }
 
-  //  padrão revelado
   if (jogadas >= 8) {
-    return "Quanto mais você joga, mais perde. Isso não é coincidência.";
+    return "Quanto mais joga, mais perde.";
   }
-
 
   return null;
 }
 
 function reset() {
-  saldo = 100;
+  deposito = 0;
+  saldo = 0;
   jogadas = 0;
   historico = [];
 }
 
-export { girar, getAlerta, reset };
+export { girar, getAlerta, reset, adicionarDeposito };

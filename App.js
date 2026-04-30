@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ImageBackground, StyleSheet, Text, View, Pressable, Image } from 'react-native';
-import { girar, getAlerta } from "./src/logic/game";
+import { girar, getAlerta, adicionarDeposito } from "./src/logic/game";
 
 const IMAGENS_SLOT = {
   'chuteira': require('./assets/chuteira.png'),
@@ -17,11 +17,10 @@ const IMAGENS_SLOT = {
 
 export default function App() {
   const [saldo, setSaldo] = useState(0);
-  const [deposito, set] = useState(0);
-  const [resultadoTexto, setResultadoTexto] = useState("Boa sorte!");
+  const [deposito, setDeposito] = useState(0);
+  const [resultadoTexto, setResultadoTexto] = useState("Faça um depósito");
   const [mensagemAlerta, setMensagemAlerta] = useState("");
   const [rodando, setRodando] = useState(false);
-
 
   const simbolos = Object.keys(IMAGENS_SLOT);
 
@@ -38,7 +37,7 @@ export default function App() {
   ];
 
   const lidarComGiro = () => {
-    if (rodando) return;
+    if (rodando || saldo <= 0) return;
 
     setRodando(true);
     setMensagemAlerta("");
@@ -68,6 +67,8 @@ export default function App() {
           [iconeVitoria, iconeVitoria, iconeVitoria],
           gerarFileiraAleatoria()
         ]);
+      } else if (resultado.resultado === "sem_saldo") {
+        setResultadoTexto("Sem saldo!");
       } else {
         setResultadoTexto("Tente novamente!");
 
@@ -85,6 +86,13 @@ export default function App() {
     }, 1500);
   };
 
+  const lidarDeposito = () => {
+    const res = adicionarDeposito(50);
+    setDeposito(res.deposito);
+    setSaldo(res.saldo);
+    setResultadoTexto("Depósito realizado!");
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -93,14 +101,16 @@ export default function App() {
         style={styles.background}
       >
         <View style={styles.viewDados}>
-          <Text style={styles.text}>Olá André!</Text>
+          <Text style={styles.text}>Depósito: R$ {deposito}</Text>
           <Text style={styles.text}>Saldo: R$ {saldo}</Text>
         </View>
+
         <Image source={require("./assets/logo.png")} style={styles.logoImage} />
 
         <View style={styles.statusPanel}>
           <Text style={styles.saldoText}>R$ {saldo}</Text>
           <Text style={styles.feedbackText}>{resultadoTexto}</Text>
+
           {mensagemAlerta !== "" && (
             <Text style={styles.alertaText}>{mensagemAlerta}</Text>
           )}
@@ -121,15 +131,22 @@ export default function App() {
           ))}
         </View>
 
+        {/* BOTÃO DE DEPÓSITO */}
+        <Pressable style={styles.button} onPress={lidarDeposito}>
+          <Text style={styles.buttonText}>Depositar R$50</Text>
+        </Pressable>
+
+        {/* BOTÃO GIRAR */}
         <Pressable
-          style={[styles.button, rodando && styles.buttonDisabled]}
+          style={[styles.button, (rodando || saldo <= 0) && styles.buttonDisabled]}
           onPress={lidarComGiro}
-          disabled={rodando}
+          disabled={rodando || saldo <= 0}
         >
           <Text style={styles.buttonText}>
             {rodando ? "GIRANDO..." : "GIRAR"}
           </Text>
         </Pressable>
+
       </ImageBackground>
       <StatusBar style="light" />
     </View>
@@ -138,20 +155,32 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
-  background: { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' },
+
+  background: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%'
+  },
 
   viewDados: {
     flexDirection: "row",
-    justifyContent: "space-between"
-  },
-  text: {
-     color: '#fff',
-     fontSize: 20,
-     marginHorizontal: 40,
-     fontWeight: '700'
+    justifyContent: "space-between",
+    width: "90%"
   },
 
-  logoImage: { width: 250, height: 250, resizeMode: 'contain', marginBottom: 10 },
+  text: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '700'
+  },
+
+  logoImage: {
+    width: 250,
+    height: 250,
+    resizeMode: 'contain'
+  },
 
   statusPanel: {
     backgroundColor: 'rgba(0,0,0,0.8)',
@@ -164,8 +193,17 @@ const styles = StyleSheet.create({
     borderColor: '#FFD700'
   },
 
-  saldoText: { color: '#00FF00', fontSize: 28, fontWeight: 'bold' },
-  feedbackText: { color: '#fff', fontSize: 18, marginTop: 5, fontWeight: '500' },
+  saldoText: {
+    color: '#00FF00',
+    fontSize: 28,
+    fontWeight: 'bold'
+  },
+
+  feedbackText: {
+    color: '#fff',
+    fontSize: 18,
+    marginTop: 5
+  },
 
   alertaText: {
     color: '#FFD700',
@@ -175,16 +213,17 @@ const styles = StyleSheet.create({
   },
 
   slotContainer: {
-
-    backgroundColor: 'rgba(51, 51, 51, 0.9)',
-
+    backgroundColor: 'rgba(51,51,51,0.9)',
     padding: 10,
     borderRadius: 15,
     borderWidth: 5,
-    borderColor: "#FFD700",
+    borderColor: "#FFD700"
   },
 
-  reelsContainer: { flexDirection: 'row', marginVertical: 3 },
+  reelsContainer: {
+    flexDirection: 'row',
+    marginVertical: 3
+  },
 
   reel: {
     width: 80,
@@ -193,27 +232,36 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: '#ddd'
+    borderRadius: 8
   },
 
-  reelSpinning: { opacity: 0.6, borderColor: '#FFD700' },
+  reelSpinning: {
+    opacity: 0.6
+  },
 
-  slotImage: { width: 75, height: 75, resizeMode: 'contain' },
+  slotImage: {
+    width: 75,
+    height: 75,
+    resizeMode: 'contain'
+  },
 
   button: {
-    marginTop: 30,
-    backgroundColor: '#01d135ff',
+    marginTop: 15,
+    backgroundColor: '#01d135',
     paddingVertical: 15,
     paddingHorizontal: 60,
     borderRadius: 50,
-    borderWidth: 4,
-    borderColor: '#fff',
-    elevation: 5
+    borderWidth: 3,
+    borderColor: '#fff'
   },
 
-  buttonDisabled: { backgroundColor: '#555', borderColor: '#888' },
+  buttonDisabled: {
+    backgroundColor: '#555'
+  },
 
-  buttonText: { color: '#ffffffff', fontSize: 24, fontWeight: 'bold' },
+  buttonText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
 });
