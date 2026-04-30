@@ -1,34 +1,33 @@
-let saldo = 100; // define o saldo inicial do jogador 
-
-// aq o contador para registrar quantas vezes o botão foi clicado
+let saldo = 100;
 let jogadas = 0;
-
-// criei um arraay para listar os detalhes de cada rodada 
 let historico = [];
-
-
 
 function girar() {
 
-  //incrementar o contador de jogadqas toda vez que a funçao é ativada
+  //  trava quando saldo acaba
+  if (saldo <= 0) {
+    return {
+      jogada: jogadas,
+      resultado: "sem_saldo",
+      valor: 0,
+      saldo
+    };
+  }
+
   jogadas++;
 
   let ganhou;
 
-
-  // aqui comeca a manipulaçao do APP
-
-  // isca/; se forem as duas primeiras jogadas iniciais, o jogador sempre vai vencer(ilusao)
-  if (jogadas <= 2) {
+  //  ganha só nas 3 primeiras
+  if (jogadas <= 3) {
     ganhou = true;
   } else {
-    ganhou = Math.random() < 0.3; //  a partir da 3 rodada , a chance de vencer é de apns 30 %
+    ganhou = false; // depois só perde
   }
-  //// se ganhou, recebe 20. se perdeu, retira 10 do saldo
+
   let valor = ganhou ? 20 : -10;
   saldo += valor;
 
-  // cria um objeto com os dados desta rodada 
   const resultado = {
     jogada: jogadas,
     resultado: ganhou ? "ganhou" : "perdeu",
@@ -36,34 +35,42 @@ function girar() {
     saldo
   };
 
-
-  // salva o resultado no array de histórico
   historico.push(resultado);
 
-  // retorna os dados da rodada para quem chamou a função
   return resultado;
 }
 
 function getAlerta() {
-  if (jogadas >= 3 && saldo < 100) {
-    return "Você está perdendo dinheiro. Esses jogos são feitos pra te prender.";
+
+  if (saldo <= 0) {
+    return "Seu saldo acabou. Esse é o destino final em todos jogos de aposta.";
   }
 
-  if (jogadas >= 6) {
-    return "Percebeu o padrão? Quanto mais joga, mais perde.";
+  if (jogadas === 4) {
+    return "Percebeu que você começou ganhando? Isso não é sorte, é estratégia.";
   }
+
+    if (saldo < 100 && jogadas >= 4) {
+    return "Você já está no prejuízo, mas a tendência é continuar jogando.";
+  }
+
+    if (jogadas >= 6 && saldo > 0) {
+    return "Mesmo perdendo, você continua. É assim que esses jogos te prendem.";
+  }
+
+  //  padrão revelado
+  if (jogadas >= 8) {
+    return "Quanto mais você joga, mais perde. Isso não é coincidência.";
+  }
+
 
   return null;
 }
 
-// reinicia todas as variáveis para o estado original (limpa o jogo) famosin buffer
 function reset() {
   saldo = 100;
   jogadas = 0;
   historico = [];
 }
 
-// exporta as funções para serem usadas em outros arquivos do projeto
 export { girar, getAlerta, reset };
-
-
