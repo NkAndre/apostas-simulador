@@ -451,14 +451,17 @@ const styles = StyleSheet.create({
   viewDados: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "90%"
+    width: "90%",
+   
   },
 
   text: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '700',
-    marginHorizontal: 40
+    marginHorizontal: 40,
+    
+  
   },
 
   logoImage: {
