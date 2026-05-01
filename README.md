@@ -25,7 +25,8 @@ Demonstrar como funcionam os bastidores de jogos de aposta:
 
 ## 📸 Preview
 
-<img width="379" height="810" src="https://github.com/user-attachments/assets/ef4050ce-5085-4458-bac7-7521cf8543da" />
+<img width="366" height="799" alt="canarinho" src="https://github.com/user-attachments/assets/b80938d1-fc2b-4f86-a239-cff224bd1eb3" />
+
 
 ---
 
