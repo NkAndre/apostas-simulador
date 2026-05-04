@@ -55,6 +55,10 @@ Mensagens exibidas:
 
 ---
 
+autores: André e Lucas pereira
+
+---
+
 ## 🛠️ Como rodar
 
 ```terminal
