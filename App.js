@@ -57,6 +57,15 @@ export default function App() {
     somRef.current = sound;
     await sound.playAsync();
   }
+
+  async function tocarSomVitoria() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("./assets/sound/coinsWin.mp3")
+    );
+  
+    await sound.playAsync();
+  }
+
   const lidarComGiro = () => {
     if (rodando || saldo <= 0) return;
 
@@ -76,7 +85,11 @@ export default function App() {
       clearInterval(intervalo);
 
       if (somRef.current) {
-        await somRef.current.stopAsync();
+        await somRef.current.setVolumeAsync(0.1); // baixa o volume rápido
+      
+        setTimeout(async () => {
+          await somRef.current.stopAsync();
+        }, 100); // corta depois de 0.1s
       }
 
       const resultado = girar();
@@ -85,6 +98,7 @@ export default function App() {
       setRodando(false);
 
       if (resultado.resultado === "ganhou") {
+        await tocarSomVitoria();
         setResultadoTexto("VOCÊ GANHOU!");
 
         const iconeVitoria = "taca";
