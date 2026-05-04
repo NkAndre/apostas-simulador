@@ -66,6 +66,14 @@ export default function App() {
     await sound.playAsync();
   }
 
+  async function tocarSomDerrota() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("./assets/sound/lose.mp3")
+    );
+  
+    await sound.playAsync();
+  }
+
   const lidarComGiro = () => {
     if (rodando || saldo <= 0) return;
 
@@ -110,6 +118,7 @@ export default function App() {
       } else if (resultado.resultado === "sem_saldo") {
         setResultadoTexto("Sem saldo!");
       } else {
+        await tocarSomDerrota();
         setResultadoTexto("Tente novamente!");
 
         setGrade([
