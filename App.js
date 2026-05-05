@@ -242,7 +242,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "90%",
-    marginTop: 40,
+    marginTop: 75,
+    
   },
 
   text: {

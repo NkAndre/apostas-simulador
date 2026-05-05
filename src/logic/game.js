@@ -55,7 +55,7 @@ function getAlerta() {
     return "Seu saldo acabou. Você perdeu tudo que depositou.";
   }
 
-  if (jogadas === 4) {
+  if (jogadas === 44) {
     return "Você começou ganhando, mas agora só perde.";
   }
 
@@ -63,7 +63,7 @@ function getAlerta() {
     return "Você já está no prejuízo.";
   }
 
-  if (jogadas >= 6) {
+  if (jogadas >= 4) {
     return "Mesmo perdendo, você continua jogando.";
   }
 
